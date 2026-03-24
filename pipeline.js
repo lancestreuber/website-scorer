@@ -6,10 +6,8 @@ const fs     = require('fs');
 const { parse }     = require('csv-parse');
 const { stringify } = require('csv-stringify');
 
-// Load .env — check two levels up (Pi: workspace/keys/.env) then local ./keys/.env
-const ENV_PATH_DEPLOY = path.join(__dirname, '..', '..', 'keys', '.env');
-const ENV_PATH_LOCAL  = path.join(__dirname, 'keys', '.env');
-const ENV_PATH = fs.existsSync(ENV_PATH_DEPLOY) ? ENV_PATH_DEPLOY : ENV_PATH_LOCAL;
+// Load .env from ~/.openclaw/.env (openclaw standard location)
+const ENV_PATH = path.join(require('os').homedir(), '.openclaw', '.env');
 require('dotenv').config({ path: ENV_PATH });
 
 const pLimit           = require('p-limit');
