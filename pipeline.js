@@ -6,9 +6,10 @@ const fs     = require('fs');
 const { parse }     = require('csv-parse');
 const { stringify } = require('csv-stringify');
 
-// Load .env from the keys directory two levels up from this skill's folder
-// Works whether deployed to /home/pi/openclaw or run locally
-const ENV_PATH = path.join(__dirname, '..', '..', 'keys', '.env');
+// Load .env — check two levels up (Pi: workspace/keys/.env) then local ./keys/.env
+const ENV_PATH_DEPLOY = path.join(__dirname, '..', '..', 'keys', '.env');
+const ENV_PATH_LOCAL  = path.join(__dirname, 'keys', '.env');
+const ENV_PATH = fs.existsSync(ENV_PATH_DEPLOY) ? ENV_PATH_DEPLOY : ENV_PATH_LOCAL;
 require('dotenv').config({ path: ENV_PATH });
 
 const pLimit           = require('p-limit');
